@@ -17,6 +17,11 @@ public class TileManager : MonoBehaviour
     System.Random rnd = new System.Random();
     public GameObject[] obstaclePrefabs;
     public BodySourceView bodySourceView;
+    //private bool isGrounded = true;
+
+    public Vector3 posRight;
+    public Vector3 posLift;
+    public Vector3 posMiddle;
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +29,31 @@ public class TileManager : MonoBehaviour
         bodySourceView.jumped.Subscribe(jumped =>
         {
             Debug.Log("jumped");
-            Jump();
+            Jump(jumped);
         });
 
         bodySourceView.crouched.Subscribe(crouched =>
         {
             Debug.Log("crouched");
-            Crouch();
+            Crouch(crouched);
+        });
+        
+        bodySourceView.movedLeft.Subscribe(movedLeft =>
+        {
+            Debug.Log("movedLeft");
+            MoveLeft(movedLeft);
+        });
+        
+        bodySourceView.movedRight.Subscribe(movedRight =>
+        {
+            Debug.Log("movedRight");
+            MoveRight(movedRight);
+        });
+        
+        bodySourceView.movedMiddle.Subscribe(movedMiddle =>
+        {
+            Debug.Log("movedMiddle");
+            MoveMiddle(movedMiddle);
         });
         
         playerTransform.position = new Vector3(0,1.14f,40f);
@@ -40,14 +63,79 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void Jump()
+    private void Jump(bool jumped)
     {
-        // TODO: Add jump implementation here
+        for(int i = 0; i <50; i++)
+        {
+            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
+            StartCoroutine(WaitShort());
+        }
+
+        StartCoroutine(WaitLong());
+        
+        for(int i = 0; i <50; i++)
+        {
+            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
+            StartCoroutine(WaitShort());
+        }
     }
 
-    private void Crouch()
+    private void Crouch(bool crouched)
     {
-        // TODO: Add jump implementation here
+        for(int i = 0; i <100; i++)
+        {
+            playerTransform.Rotate(-1.8f,0,0);
+            StartCoroutine(WaitShort());
+        }
+
+        StartCoroutine(WaitLong());
+        for(int i = 0; i <100; i++)
+        {
+            playerTransform.Rotate(1.8f,0,0);
+            StartCoroutine(WaitShort());
+        }
+    }
+
+    private void MoveLeft(bool movedLeft)
+    {
+        //TODO calculate how much we have to go left
+        
+        for(int i = 0; i <150; i++)
+        {
+            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
+            StartCoroutine(WaitShort());
+        }
+    }
+
+    private void MoveRight(bool movedRight)
+    {
+        //TODO calculate how much we have to go right
+        for(int i = 0; i <150; i++)
+        {
+            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
+            StartCoroutine(WaitShort());
+        }
+    }
+
+    private void MoveMiddle(bool movedMiddle)
+    {
+        //TODO calculate how much we have to go to middle
+        if (playerTransform.position.x < posMiddle.x)
+        {
+            for(int i = 0; i <150; i++)
+            {
+                playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
+                StartCoroutine(WaitShort());
+            }
+        }
+        else
+        {
+            for(int i = 0; i <150; i++)
+            {
+                playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
+                StartCoroutine(WaitShort());
+            }
+        }
     }
     
     private void spawn(int prefabIndex = -1)
@@ -70,6 +158,15 @@ public class TileManager : MonoBehaviour
 
         }
         spawnZ += tileLength;
+    }
+    
+    private IEnumerator WaitShort()
+    {
+        yield return new WaitForSeconds(0.004f);
+    }
+    private IEnumerator WaitLong()
+    {
+        yield return new WaitForSeconds(0.50f);
     }
 
     // Update is called once per frame
