@@ -38,6 +38,10 @@ public class BodySourceView : MonoBehaviour
     public ReactiveProperty<bool> movedRight;
     public ReactiveProperty<bool> movedMiddle;
 
+
+    public GameObject player;
+    public GameObject spawner;
+
     /// <summary>
     /// 
     /// This function waits for some time and sets the jumped value to false again, so the next jump
@@ -353,6 +357,10 @@ public class BodySourceView : MonoBehaviour
         idleElbowRight.transform.position = elbowRight.transform.position;
         
         hasBeenCalibrated = true;
+
+        player.transform.position = new Vector3(0, 2f, 40f);
+        player.GetComponent<Play>().enabled = true;
+        spawner.SetActive(true);
         
     }
     
@@ -438,7 +446,6 @@ public class BodySourceView : MonoBehaviour
 
             if (headRight && leftAnkle && rightAnkle && midSpineRight)
             {
-                Debug.Log("Right step has been detected!");
                 movedMiddle.Value = false;
                 movedRight.Value = true;
             }
@@ -476,7 +483,6 @@ public class BodySourceView : MonoBehaviour
 
             if (headRight && leftFoot && rightFoot && midSpine)
             {
-                Debug.Log("Left step has been detected!");
                 movedLeft.Value = true;
                 movedMiddle.Value = false;
             }
@@ -507,7 +513,6 @@ public class BodySourceView : MonoBehaviour
 
             if (headMiddle && leftAnkle && rightAnkle && midSpineMiddle)
             {
-                Debug.Log("Move to middle has been detected!");
                 movedMiddle.Value = true;
             }
         }

@@ -34,114 +34,71 @@ public class TileManager : MonoBehaviour
 
         bodySourceView.crouched.Subscribe(crouched =>
         {
-            Debug.Log("crouched");
             Crouch(crouched);
         });
         
         bodySourceView.movedLeft.Subscribe(movedLeft =>
         {
-            Debug.Log("movedLeft");
             MoveLeft(movedLeft);
         });
         
         bodySourceView.movedRight.Subscribe(movedRight =>
         {
-            Debug.Log("movedRight");
             MoveRight(movedRight);
         });
         
         bodySourceView.movedMiddle.Subscribe(movedMiddle =>
         {
-            Debug.Log("movedMiddle");
             MoveMiddle(movedMiddle);
         });
         
-        playerTransform.position = new Vector3(0,1.14f,40f);
+        playerTransform.position = new Vector3(0,2f,60f);
         for(int i = 0; i < amnTiles; i++)
         {
-            spawn();
+            spawn(0);
         }
     }
 
     private void Jump(bool jumped)
     {
-        for(int i = 0; i <50; i++)
-        {
-            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
-            StartCoroutine(WaitShort());
-        }
-
-        StartCoroutine(WaitLong());
-        
-        for(int i = 0; i <50; i++)
-        {
-            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
-            StartCoroutine(WaitShort());
-        }
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*5);
     }
 
     private void Crouch(bool crouched)
     {
-        for(int i = 0; i <100; i++)
-        {
-            playerTransform.Rotate(-1.8f,0,0);
-            StartCoroutine(WaitShort());
-        }
-
-        StartCoroutine(WaitLong());
-        for(int i = 0; i <100; i++)
-        {
-            playerTransform.Rotate(1.8f,0,0);
-            StartCoroutine(WaitShort());
-        }
+        // TODO: check for crouch
     }
 
     private void MoveLeft(bool movedLeft)
     {
-        //TODO calculate how much we have to go left
-        
-        for(int i = 0; i <150; i++)
-        {
-            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
-            StartCoroutine(WaitShort());
-        }
+        Debug.Log("moved middle");
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right);
     }
 
     private void MoveRight(bool movedRight)
     {
-        //TODO calculate how much we have to go right
-        for(int i = 0; i <150; i++)
-        {
-            playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
-            StartCoroutine(WaitShort());
-        }
+        Debug.Log("moved right");
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left);
     }
 
     private void MoveMiddle(bool movedMiddle)
     {
-        //TODO calculate how much we have to go to middle
-        if (playerTransform.position.x < posMiddle.x)
-        {
-            for(int i = 0; i <150; i++)
-            {
-                playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y + 0.10f, playerTransform.position.z);
-                StartCoroutine(WaitShort());
-            }
-        }
+        if(playerTransform.position.x > 0)
+            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left);
         else
-        {
-            for(int i = 0; i <150; i++)
-            {
-                playerTransform.position = new Vector3(playerTransform.position.x,playerTransform.position.y - 0.10f, playerTransform.position.z);
-                StartCoroutine(WaitShort());
-            }
-        }
+            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right);
     }
     
     private void spawn(int prefabIndex = -1)
     {
-        int num = rnd.Next(0, tilePrefabs.Length);
+        int num = 0;
+        if (prefabIndex != 0)
+        {
+            num = rnd.Next(0, tilePrefabs.Length);
+        }
+        
         GameObject go;
+        Debug.Log($"num={num}");
         go = Instantiate(tilePrefabs[num]);
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;

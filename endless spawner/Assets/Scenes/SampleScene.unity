@@ -186,7 +186,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -354,7 +354,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &364292660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,19 +368,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePrefabs:
-  - {fileID: 2668260482579845216, guid: 6957d5b5d07ef864f98221f34c6837de, type: 3}
-  - {fileID: 2668260482579845216, guid: 6957d5b5d07ef864f98221f34c6837de, type: 3}
-  - {fileID: 2668260482579845216, guid: 6957d5b5d07ef864f98221f34c6837de, type: 3}
-  - {fileID: 2668260482579845216, guid: 6957d5b5d07ef864f98221f34c6837de, type: 3}
-  - {fileID: 2668260482579845216, guid: 6957d5b5d07ef864f98221f34c6837de, type: 3}
-  - {fileID: 2668260482579845216, guid: d517f11f9fc2f6d4998350cb7aa5dd40, type: 3}
-  - {fileID: 2668260482579845216, guid: c700d836e273b2a48a62a4435ba3c5dd, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 4ba34bd02f9ad2846806223ca22fc05f, type: 3}
+  - {fileID: 2668260482579845216, guid: f26cdc90db3292f418dc1ad68c9b47d3, type: 3}
   playerTransform: {fileID: 538955975}
   obstaclePrefabs:
   - {fileID: 1528902786951722756, guid: dfb1ea597b2791f45b3a559881affc10, type: 3}
   - {fileID: 4887119748550782552, guid: 83c730ed6a39e224dba3dea5ff9de410, type: 3}
   - {fileID: 4887119748550782552, guid: 5a7d77f76385ea0408c17e9142c86b24, type: 3}
   bodySourceView: {fileID: 1374672547847959307}
+  posRight: {x: 0, y: 0, z: 0}
+  posLift: {x: 0, y: 0, z: 0}
+  posMiddle: {x: 0, y: 0, z: 0}
 --- !u!4 &364292661
 Transform:
   m_ObjectHideFlags: 0
@@ -544,6 +547,7 @@ GameObject:
   - component: {fileID: 538955973}
   - component: {fileID: 538955972}
   - component: {fileID: 538955971}
+  - component: {fileID: 538955976}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -558,7 +562,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538955970}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 065e7462daadcec4380df34c2887adac, type: 3}
   m_Name: 
@@ -643,6 +647,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &538955976
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538955970}
+  serializedVersion: 2
+  m_Mass: 0.02
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &596348464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,10 +1229,10 @@ RectTransform:
   m_Father: {fileID: 858370147}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -50}
-  m_SizeDelta: {x: 300, y: 300}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 291, y: 65}
+  m_SizeDelta: {x: 144.5635, y: 142.0765}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1004127585
 MonoBehaviour:
@@ -1613,9 +1633,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6963462163516969924, guid: 8e4a9f6f7abcc35408a0c208d7ab9327, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 538955970}
+    - target: {fileID: 6963462163516969924, guid: 8e4a9f6f7abcc35408a0c208d7ab9327, type: 3}
       propertyPath: fillbar
       value: 
       objectReference: {fileID: 44750378}
+    - target: {fileID: 6963462163516969924, guid: 8e4a9f6f7abcc35408a0c208d7ab9327, type: 3}
+      propertyPath: spawner
+      value: 
+      objectReference: {fileID: 364292659}
     - target: {fileID: 6963462163516969924, guid: 8e4a9f6f7abcc35408a0c208d7ab9327, type: 3}
       propertyPath: testUIDetected
       value: 
