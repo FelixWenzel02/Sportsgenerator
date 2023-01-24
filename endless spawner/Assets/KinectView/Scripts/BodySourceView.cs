@@ -432,6 +432,7 @@ public class BodySourceView : MonoBehaviour
         {
             var bodyHeight = Vector3.Distance(idleHead.transform.position, idleAnkleLeft.transform.position); 
             
+            /*
             // head normal position x value: around -1 to 1
             bool headRight = head.transform.position.x < idleHead.transform.position.x - bodyHeight*0.25f;
 
@@ -441,14 +442,18 @@ public class BodySourceView : MonoBehaviour
             // right foot normal position x value: around 0 and 2
             bool rightAnkle = ankleRight.transform.position.x <
                               idleAnkleRight.transform.position.x - bodyHeight * 0.25f;
+            */
+
             // spine mid normal position x value: around -2 to 2
             bool midSpineRight = spineMid.transform.position.x < idleSpineMid.transform.position.x - bodyHeight*0.25f;
 
-            if (headRight && leftAnkle && rightAnkle && midSpineRight)
+            if (/* headRight && leftAnkle && rightAnkle &&*/ midSpineRight)
             {
                 movedMiddle.Value = false;
+                movedLeft.Value = false;
                 movedRight.Value = true;
-            }
+            } 
+            
         }
     }
     
@@ -469,6 +474,7 @@ public class BodySourceView : MonoBehaviour
         {
             var bodyHeight = Vector3.Distance(idleHead.transform.position, idleAnkleLeft.transform.position);
             
+            /* 
             // head normal position x value: around -1 to 1
             bool headRight = head.transform.position.x > idleHead.transform.position.x + bodyHeight*0.25f;
 
@@ -478,14 +484,19 @@ public class BodySourceView : MonoBehaviour
             // right foot normal position x value: around 0 and 2
             bool rightFoot = ankleRight.transform.position.x > idleAnkleRight.transform.position.x + bodyHeight * 0.25f;
 
+            */
+
             // spine mid normal position x value: around -2 to 2
             bool midSpine = spineMid.transform.position.x > idleSpineMid.transform.position.x + bodyHeight*0.25f;
 
-            if (headRight && leftFoot && rightFoot && midSpine)
+            if (/* headRight && leftFoot && rightFoot && */ midSpine)
             {
                 movedLeft.Value = true;
+                movedRight.Value = false;
                 movedMiddle.Value = false;
-            }
+            } 
+            
+
         }
     }
 
@@ -495,6 +506,7 @@ public class BodySourceView : MonoBehaviour
         {
             var bodyHeight = Vector3.Distance(idleHead.transform.position, idleAnkleLeft.transform.position); 
             
+            /* 
             // head normal position x value: around -1 to 1
             bool headMiddle = Vector3.Distance(head.transform.position, idleHead.transform.position) <
                               0.05f * bodyHeight;
@@ -506,14 +518,17 @@ public class BodySourceView : MonoBehaviour
             // right foot normal position x value: around 0 and 2
             bool rightAnkle = Vector3.Distance(ankleRight.transform.position, idleAnkleRight.transform.position) <
                               0.05f * bodyHeight;
-            
+            */
+
             // spine mid normal position x value: around -2 to 2
             bool midSpineMiddle = Vector3.Distance(spineMid.transform.position, idleSpineMid.transform.position) <
-                                  0.05f * bodyHeight;
+                                  0.1f * bodyHeight;
 
-            if (headMiddle && leftAnkle && rightAnkle && midSpineMiddle)
+            if (/* headMiddle && leftAnkle && rightAnkle && */ midSpineMiddle)
             {
                 movedMiddle.Value = true;
+                movedRight.Value = false;
+                movedLeft.Value = false;
             }
         }
     }

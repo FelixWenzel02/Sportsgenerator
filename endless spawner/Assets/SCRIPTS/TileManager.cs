@@ -28,31 +28,40 @@ public class TileManager : MonoBehaviour
     {
         bodySourceView.jumped.Subscribe(jumped =>
         {
-            Debug.Log("jumped");
-            Jump(jumped);
+            if(jumped) {
+                Jump(jumped);
+            }
         });
 
         bodySourceView.crouched.Subscribe(crouched =>
         {
-            Crouch(crouched);
+            if(crouched) {
+                Crouch(crouched);
+            }
         });
         
         bodySourceView.movedLeft.Subscribe(movedLeft =>
         {
-            MoveLeft(movedLeft);
+            if(movedLeft) {
+                MoveLeft(movedLeft);
+            }
         });
         
         bodySourceView.movedRight.Subscribe(movedRight =>
-        {
-            MoveRight(movedRight);
+        {   
+            if(movedRight) {
+                MoveRight(movedRight);
+            }
         });
         
         bodySourceView.movedMiddle.Subscribe(movedMiddle =>
         {
-            MoveMiddle(movedMiddle);
+            if(movedMiddle) {
+                MoveMiddle(movedMiddle);
+            }
         });
         
-        playerTransform.position = new Vector3(0,2f,60f);
+        playerTransform.position = new Vector3(0,1.1f,60f);
         for(int i = 0; i < amnTiles; i++)
         {
             spawn(0);
@@ -72,21 +81,24 @@ public class TileManager : MonoBehaviour
     private void MoveLeft(bool movedLeft)
     {
         Debug.Log("moved middle");
-        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right);
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*3);
     }
 
     private void MoveRight(bool movedRight)
     {
         Debug.Log("moved right");
-        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left);
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*3);
     }
 
     private void MoveMiddle(bool movedMiddle)
     {
-        if(playerTransform.position.x > 0)
-            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left);
+        playerTransform.position = new Vector3(0, 1.1f, playerTransform.position.z);
+        /* 
+        if(playerTransform.position.x > 2f)
+            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*3);
         else
-            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right);
+            playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*3);
+        */ 
     }
     
     private void spawn(int prefabIndex = -1)
