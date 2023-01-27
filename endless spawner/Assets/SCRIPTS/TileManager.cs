@@ -17,6 +17,8 @@ public class TileManager : MonoBehaviour
     System.Random rnd = new System.Random();
     public GameObject[] obstaclePrefabs;
     public BodySourceView bodySourceView;
+    private bool jump = false;
+    private bool slide = false;
     //private bool isGrounded = true;
 
     public Vector3 posRight;
@@ -68,14 +70,47 @@ public class TileManager : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if(other.gameObject.tag == "Slide")
+        {
+            if(slide == false)
+            {
+                //Die
+            }
+        }
+        else if(other.gameObject.tag == "Hinderniss")
+        {
+            if(jump == false)
+            {
+                //Die
+            }
+        }
+    }
+
     private void Jump(bool jumped)
     {
+        jump = true;
+        Invoke("JumpReset", 1);
         playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*5);
+    }
+
+    private void JumpReset()
+    {
+        jump = false;
     }
 
     private void Crouch(bool crouched)
     {
+        slide = true;
+        Invoke("SlideReset", 1);
         // TODO: check for crouch
+    }
+
+    private void SlideReset()
+    {
+        slide = false;
     }
 
     private void MoveLeft(bool movedLeft)
@@ -104,7 +139,7 @@ public class TileManager : MonoBehaviour
     private void spawn(int prefabIndex = -1)
     {
         int num = 0;
-        if (prefabIndex != 0)
+        if (prefabIndex == -1)
         {
             num = rnd.Next(0, tilePrefabs.Length);
         }
@@ -114,7 +149,7 @@ public class TileManager : MonoBehaviour
         go = Instantiate(tilePrefabs[num]);
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;
-        if(num == 0 || num == 1 || num == 2)
+        if(num != 5 && num != 6 && num != 7 )
         {
             int num2 = rnd.Next(0, obstaclePrefabs.Length);
             GameObject go2;
