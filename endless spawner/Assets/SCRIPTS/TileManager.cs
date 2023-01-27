@@ -21,45 +21,43 @@ public class TileManager : MonoBehaviour
     private bool slide = false;
     //private bool isGrounded = true;
 
-    public Vector3 posRight;
-    public Vector3 posLift;
-    public Vector3 posMiddle;
+    private bool currentlyRight;
+    private bool currentlyLeft;
 
-    // Start is called before the first frame update
     void Start()
     {
         bodySourceView.jumped.Subscribe(jumped =>
         {
             if(jumped) {
-                Jump(jumped);
+                Jump();
             }
         });
 
         bodySourceView.crouched.Subscribe(crouched =>
         {
             if(crouched) {
-                Crouch(crouched);
+                Crouch();
             }
         });
         
         bodySourceView.movedLeft.Subscribe(movedLeft =>
         {
             if(movedLeft) {
-                MoveLeft(movedLeft);
+                MoveLeft();
             }
         });
         
         bodySourceView.movedRight.Subscribe(movedRight =>
         {   
             if(movedRight) {
-                MoveRight(movedRight);
+                MoveRight();
             }
         });
         
         bodySourceView.movedMiddle.Subscribe(movedMiddle =>
         {
             if(movedMiddle) {
-                MoveMiddle(movedMiddle);
+                MoveMiddle();
             }
         });
         
@@ -89,7 +87,7 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void Jump(bool jumped)
+    private void Jump()
     {
         jump = true;
         Invoke("JumpReset", 1);
@@ -101,7 +99,7 @@ public class TileManager : MonoBehaviour
         jump = false;
     }
 
-    private void Crouch(bool crouched)
+    private void Crouch()
     {
         slide = true;
         Invoke("SlideReset", 1);
@@ -113,27 +111,50 @@ public class TileManager : MonoBehaviour
         slide = false;
     }
 
-    private void MoveLeft(bool movedLeft)
+    private void MoveLeft()
     {
-        Debug.Log("moved middle");
-        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*3);
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.right * 6; 
+        //playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*4);
+        currentlyRight = false;
+        currentlyLeft = true;
     }
 
-    private void MoveRight(bool movedRight)
+    private void MoveRight()
     {
-        Debug.Log("moved right");
-        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*3);
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.left * 6; 
+        //playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*4);
+        currentlyRight = true;
+        currentlyLeft = false;
     }
 
-    private void MoveMiddle(bool movedMiddle)
+    private void MoveMiddle()
     {
-        playerTransform.position = new Vector3(0, 1.1f, playerTransform.position.z);
-        /* 
+        //playerTransform.position = new Vector3(0, 1.1f, playerTransform.position.z);
+
+        if (currentlyRight)
+        {
+            MoveLeft();
+        }
+        else
+        {
+            if (currentlyLeft)
+            {
+                MoveRight();
+            }
+            else
+            {
+                playerTransform.position = new Vector3(0, 1.1f, playerTransform.position.z);
+            }
+        }
+        
+        /*
         if(playerTransform.position.x > 2f)
             playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*3);
         else
             playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*3);
-        */ 
+         */
     }
     
     private void spawn(int prefabIndex = -1)
@@ -145,7 +166,6 @@ public class TileManager : MonoBehaviour
         }
         
         GameObject go;
-        Debug.Log($"num={num}");
         go = Instantiate(tilePrefabs[num]);
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;

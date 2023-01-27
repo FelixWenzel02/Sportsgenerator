@@ -82,8 +82,8 @@ public class BodySourceView : MonoBehaviour
     {
         jumped = new ReactiveProperty<bool>(false);
         crouched = new ReactiveProperty<bool>(false);
-        movedLeft = new ReactiveProperty<bool>(false);
         movedRight = new ReactiveProperty<bool>(false);
+        movedLeft = new ReactiveProperty<bool>(false);
         movedMiddle = new ReactiveProperty<bool>(false);
         
         jumped.Subscribe(x =>
@@ -106,15 +106,6 @@ public class BodySourceView : MonoBehaviour
             }
         });
 
-        movedLeft.Subscribe(x =>
-        {
-            if (x && hasBeenCalibrated)
-            {
-                Debug.Log("Move to left has been detected. (Reactively..)");
-                StartCoroutine(DisplayDetectionText("moved to left")); 
-            }
-        });
-
         movedRight.Subscribe(x =>
         {
             if (x && hasBeenCalibrated)
@@ -124,12 +115,21 @@ public class BodySourceView : MonoBehaviour
             }
         });
 
+        movedLeft.Subscribe(x =>
+        {
+            if (x && hasBeenCalibrated)
+            {
+                Debug.Log("Move to left has been detected. (Reactively..)");
+                StartCoroutine(DisplayDetectionText("moved to left")); 
+            }
+        });
+
         // moving to middle sets movedLeft and movedRight to false
         movedMiddle.Subscribe(x =>
         {
             StartCoroutine(DisplayDetectionText("moved to middle"));
-            movedRight.Value = false;
             movedLeft.Value = false;
+            movedRight.Value = false;
         });
 
     }
@@ -417,16 +417,9 @@ public class BodySourceView : MonoBehaviour
     }
 
     /**
-     * A righ step in the game is actually inverted, which means that a right step is a left step
-     * (look from behind the person to make it the right way)
-     *
-     *  ==========================================================================================================================
-     *  ==========================================================================================================================
-     *  =======Here I am implementing the actual REAL WORLD right step, invert the figure in Unity so it fits the movement.=======
-     *  ==========================================================================================================================
-     *  ==========================================================================================================================
+     * Detection of the left step.
      */
-    private void DetectRightStep()
+    private void DetectLeftStep()
     {
         if (head != null && ankleLeft != null && ankleRight != null && spineMid != null)
         {
@@ -450,25 +443,17 @@ public class BodySourceView : MonoBehaviour
             if (/* headRight && leftAnkle && rightAnkle &&*/ midSpineRight)
             {
                 movedMiddle.Value = false;
-                movedLeft.Value = false;
-                movedRight.Value = true;
+                movedRight.Value = false;
+                movedLeft.Value = true;
             } 
             
         }
     }
     
     /**
-     * A left step in the game is actually inverted, which means that a left step is a right step
-     * (look from behind the person to make it the right way)
-     *
-     *  ==========================================================================================================================
-     *  ==========================================================================================================================
-     *  =======Here I am implementing the actual REAL WORLD left step, invert the figure in Unity so it fits the movement.=======
-     *  ==========================================================================================================================
-     *  ==========================================================================================================================
-     * 
+     * Detection of the right step.
      */
-    private void DetectLeftStep()
+    private void DetectRightStep()
     {
         if (head != null && ankleLeft != null && ankleRight != null && spineMid != null)
         {
@@ -491,8 +476,8 @@ public class BodySourceView : MonoBehaviour
 
             if (/* headRight && leftFoot && rightFoot && */ midSpine)
             {
-                movedLeft.Value = true;
-                movedRight.Value = false;
+                movedRight.Value = true;
+                movedLeft.Value = false;
                 movedMiddle.Value = false;
             } 
             
@@ -527,8 +512,8 @@ public class BodySourceView : MonoBehaviour
             if (/* headMiddle && leftAnkle && rightAnkle && */ midSpineMiddle)
             {
                 movedMiddle.Value = true;
-                movedRight.Value = false;
                 movedLeft.Value = false;
+                movedRight.Value = false;
             }
         }
     }
