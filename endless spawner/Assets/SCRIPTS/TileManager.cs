@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using UnityEngine.SceneManagement;
 using UniRx;
 
 public class TileManager : MonoBehaviour
@@ -17,12 +18,15 @@ public class TileManager : MonoBehaviour
     System.Random rnd = new System.Random();
     public GameObject[] obstaclePrefabs;
     public BodySourceView bodySourceView;
-    private bool jump = false;
-    private bool slide = false;
+    
+    public Play player;
     //private bool isGrounded = true;
 
     private bool currentlyRight;
     private bool currentlyLeft;
+
+    [SerializeField] 
+    private Animator animator;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class TileManager : MonoBehaviour
         bodySourceView.movedLeft.Subscribe(movedLeft =>
         {
             if(movedLeft) {
+                Debug.Log("reactive left step");
                 MoveLeft();
             }
         });
@@ -50,6 +55,7 @@ public class TileManager : MonoBehaviour
         bodySourceView.movedRight.Subscribe(movedRight =>
         {   
             if(movedRight) {
+                Debug.Log("reactive right step");
                 MoveRight();
             }
         });
@@ -57,6 +63,7 @@ public class TileManager : MonoBehaviour
         bodySourceView.movedMiddle.Subscribe(movedMiddle =>
         {
             if(movedMiddle) {
+                Debug.Log("reactive middle step");
                 MoveMiddle();
             }
         });
@@ -68,53 +75,36 @@ public class TileManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        
-        if(other.gameObject.tag == "Slide")
-        {
-            if(slide == false)
-            {
-                //Die
-            }
-        }
-        else if(other.gameObject.tag == "Hinderniss")
-        {
-            if(jump == false)
-            {
-                //Die
-            }
-        }
-    }
-
     private void Jump()
     {
-        jump = true;
+        player.jump = true;
         Invoke("JumpReset", 1);
-        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*5);
+        animator.SetTrigger("Jump");
+        playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up*10);
     }
 
     private void JumpReset()
     {
-        jump = false;
+        player.jump = false;
     }
 
     private void Crouch()
     {
-        slide = true;
+        player.slide = true;
+        animator.SetTrigger("Crouch");
         Invoke("SlideReset", 1);
-        // TODO: check for crouch
+        
     }
 
     private void SlideReset()
     {
-        slide = false;
+        player.slide = false;
     }
 
     private void MoveLeft()
     {
         playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.right * 6; 
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity += Vector3.left * 6.5f; 
         //playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.left*4);
         currentlyRight = false;
         currentlyLeft = true;
@@ -123,7 +113,7 @@ public class TileManager : MonoBehaviour
     private void MoveRight()
     {
         playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        playerTransform.gameObject.GetComponent<Rigidbody>().velocity = Vector3.left * 6; 
+        playerTransform.gameObject.GetComponent<Rigidbody>().velocity += Vector3.right * 6.5f; 
         //playerTransform.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*4);
         currentlyRight = true;
         currentlyLeft = false;
@@ -162,14 +152,14 @@ public class TileManager : MonoBehaviour
         int num = 0;
         if (prefabIndex == -1)
         {
-            num = rnd.Next(0, tilePrefabs.Length);
+            num = rnd.Next(1, tilePrefabs.Length);
         }
         
         GameObject go;
         go = Instantiate(tilePrefabs[num]);
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;
-        if(num != 5 && num != 6 && num != 7 )
+        if(num != 0 && num != 5 && num != 6 && num != 7 )
         {
             int num2 = rnd.Next(0, obstaclePrefabs.Length);
             GameObject go2;

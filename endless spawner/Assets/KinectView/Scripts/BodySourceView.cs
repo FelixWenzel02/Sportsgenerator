@@ -90,8 +90,7 @@ public class BodySourceView : MonoBehaviour
         {
             if (x && hasBeenCalibrated)
             {
-                Debug.Log("Jump has been detected. (Reactively..)");
-                StartCoroutine(DisplayDetectionText("jump"));
+                //StartCoroutine(DisplayDetectionText("jump"));
                 StartCoroutine(WaitForNextJump());
             }
         });
@@ -100,8 +99,7 @@ public class BodySourceView : MonoBehaviour
         {
             if (x && hasBeenCalibrated)
             {
-                Debug.Log("Crouch has been detected. (Reactively..)");
-                StartCoroutine(DisplayDetectionText("crouch"));
+                //StartCoroutine(DisplayDetectionText("crouch"));
                 StartCoroutine(WaitForNextCrouch());
             }
         });
@@ -110,8 +108,7 @@ public class BodySourceView : MonoBehaviour
         {
             if (x && hasBeenCalibrated)
             {
-                Debug.Log("Move to right has been detected. (Reactively..)");
-                StartCoroutine(DisplayDetectionText("moved to right")); 
+                //StartCoroutine(DisplayDetectionText("moved to right")); 
             }
         });
 
@@ -119,15 +116,14 @@ public class BodySourceView : MonoBehaviour
         {
             if (x && hasBeenCalibrated)
             {
-                Debug.Log("Move to left has been detected. (Reactively..)");
-                StartCoroutine(DisplayDetectionText("moved to left")); 
+                //StartCoroutine(DisplayDetectionText("moved to left")); 
             }
         });
 
         // moving to middle sets movedLeft and movedRight to false
         movedMiddle.Subscribe(x =>
         {
-            StartCoroutine(DisplayDetectionText("moved to middle"));
+            //StartCoroutine(DisplayDetectionText("moved to middle"));
             movedLeft.Value = false;
             movedRight.Value = false;
         });
@@ -507,7 +503,7 @@ public class BodySourceView : MonoBehaviour
 
             // spine mid normal position x value: around -2 to 2
             bool midSpineMiddle = Vector3.Distance(spineMid.transform.position, idleSpineMid.transform.position) <
-                                  0.1f * bodyHeight;
+                                  0.2f * bodyHeight;
 
             if (/* headMiddle && leftAnkle && rightAnkle && */ midSpineMiddle)
             {
