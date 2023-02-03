@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1804351139732321134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1804351139732321128}
+  - component: {fileID: 1804351139732321129}
+  m_Layer: 0
+  m_Name: TileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1804351139732321128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804351139732321134}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1804351139732321129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1804351139732321134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7bd9164ad873294f85852f65396abdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePrefabs:
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 51cd586a242acb14681bfad5bf707b33, type: 3}
+  - {fileID: 2668260482579845216, guid: 4ba34bd02f9ad2846806223ca22fc05f, type: 3}
+  - {fileID: 2668260482579845216, guid: f26cdc90db3292f418dc1ad68c9b47d3, type: 3}
+  - {fileID: 2668260482579845216, guid: 0b9ba41da802f1340a24215c79b1ba74, type: 3}
+  playerTransform: {fileID: 0}
+  obstaclePrefabs:
+  - {fileID: 1528902786951722756, guid: de5fa0cb3cdaba241beb71f2467e7c30, type: 3}
+  - {fileID: 4887119748550782552, guid: 5249e9ed941f82e47af4b4a3e5eaa79b, type: 3}
+  - {fileID: 4887119748550782552, guid: e8ea3e77f5c5501478b64ffd23a6784f, type: 3}
+  - {fileID: 2756046274401015065, guid: db4cc90cba819684cb6cf1d4f1c8d98c, type: 3}
+  bodySourceView: {fileID: 0}
+  player: {fileID: 0}
+  animator: {fileID: 0}

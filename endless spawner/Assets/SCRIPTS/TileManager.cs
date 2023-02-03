@@ -17,6 +17,8 @@ public class TileManager : MonoBehaviour
     private int amnTiles = 7;
     System.Random rnd = new System.Random();
     public GameObject[] obstaclePrefabs;
+    private List<GameObject> activeTiles;
+    private List<GameObject> âctiveObstacles;
     public BodySourceView bodySourceView;
     
     public Play player;
@@ -69,10 +71,12 @@ public class TileManager : MonoBehaviour
         });
         
         playerTransform.position = new Vector3(0,1.1f,60f);
-        for(int i = 0; i < amnTiles; i++)
+        for(int i = 0; i < amnTiles-3; i++)
         {
             spawn(0);
         }
+        spawn();
+        spawn();
     }
 
     private void Jump()
@@ -159,6 +163,7 @@ public class TileManager : MonoBehaviour
         go = Instantiate(tilePrefabs[num]);
         go.transform.SetParent(transform);
         go.transform.position = Vector3.forward * spawnZ;
+        activeTiles.Add(go);
         if(num != 0 && num != 5 && num != 6 && num != 7 )
         {
             int num2 = rnd.Next(0, obstaclePrefabs.Length);
@@ -166,12 +171,25 @@ public class TileManager : MonoBehaviour
             go2 = Instantiate(obstaclePrefabs[num2]);
             go2.transform.SetParent(transform);
             go2.transform.position = Vector3.forward * spawnZ - new Vector3(0,0,0.5f);
+            activeTiles.Add(go2);
         }
         else
         {
 
         }
         spawnZ += tileLength;
+    }
+
+    private void deleteTile()
+    {
+        Destroy(activeTiles[0]);
+        activeTiles.RemoveAt(0);
+    }
+
+    private void deleteObstacle()
+    {
+        Destroy(obstaclePrefabs[0]);
+        activeTiles.RemoveAt(0);
     }
     
     private IEnumerator WaitShort()
@@ -189,6 +207,12 @@ public class TileManager : MonoBehaviour
         if(playerTransform.position.z > (spawnZ -amnTiles * tileLength))
         {
             spawn();
+            deleteTile();
+            if(playerTransform.position.z > obstaclePrefabs[0].transform.position.z - spawnZ)
+            {
+                deleteObstacle();
+            }
         }
+
     }
 }
