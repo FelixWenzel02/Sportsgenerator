@@ -18,7 +18,7 @@ public class TileManager : MonoBehaviour
     System.Random rnd = new System.Random();
     public GameObject[] obstaclePrefabs;
     private List<GameObject> activeTiles;
-    private List<GameObject> âctiveObstacles;
+    private List<GameObject> activeObstacles;
     public BodySourceView bodySourceView;
     
     public Play player;
@@ -189,7 +189,7 @@ public class TileManager : MonoBehaviour
     private void deleteObstacle()
     {
         Destroy(obstaclePrefabs[0]);
-        activeTiles.RemoveAt(0);
+        activeObstacles.RemoveAt(0);
     }
     
     private IEnumerator WaitShort()
@@ -208,7 +208,7 @@ public class TileManager : MonoBehaviour
         {
             spawn();
             deleteTile();
-            if(playerTransform.position.z > obstaclePrefabs[0].transform.position.z - spawnZ)
+            if(playerTransform.position.z > activeObstacles[0].transform.position.z + spawnZ)
             {
                 deleteObstacle();
             }
