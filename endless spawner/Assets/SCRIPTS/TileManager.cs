@@ -32,6 +32,8 @@ public class TileManager : MonoBehaviour
 
     void Start()
     {
+        activeTiles = new List<GameObject>();
+        activeObstacles = new List<GameObject>();
         bodySourceView.jumped.Subscribe(jumped =>
         {
             if(jumped) {
@@ -70,13 +72,14 @@ public class TileManager : MonoBehaviour
             }
         });
         
-        playerTransform.position = new Vector3(0,1.1f,60f);
+        
         for(int i = 0; i < amnTiles-3; i++)
         {
             spawn(0);
         }
         spawn();
         spawn();
+        playerTransform.position = new Vector3(0,1.1f,60f);
     }
 
     private void Jump()
@@ -188,7 +191,7 @@ public class TileManager : MonoBehaviour
 
     private void deleteObstacle()
     {
-        Destroy(obstaclePrefabs[0]);
+        Destroy(activeObstacles[0]);
         activeObstacles.RemoveAt(0);
     }
     
@@ -204,14 +207,16 @@ public class TileManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(playerTransform.position.z > (spawnZ -amnTiles * tileLength))
+        if(playerTransform.position.z > (spawnZ -amnTiles * tileLength)+70)
         {
             spawn();
             deleteTile();
+            
             if(playerTransform.position.z > activeObstacles[0].transform.position.z + spawnZ)
             {
                 deleteObstacle();
             }
+            
         }
 
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.13040014, g: 0.09601523, b: 0.06181486, a: 1}
+  m_IndirectSpecularColor: {r: 0.13040014, g: 0.096015215, b: 0.06181486, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -705,6 +705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slide: 0
   jump: 0
+  scoreManager: {fileID: 0}
   scoreText: {fileID: 18419154}
 --- !u!136 &538955972
 CapsuleCollider:

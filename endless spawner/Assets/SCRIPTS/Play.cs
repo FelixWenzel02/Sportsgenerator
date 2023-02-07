@@ -11,7 +11,15 @@ public class Play : MonoBehaviour
     public bool jump = false;
     private float scoreValue;
 
+
+    // this is used for checking whether the highscore has been reached
+    public ScoreManager scoreManager;
+
     public TextMeshProUGUI scoreText;
+
+    private void Awake() {
+        scoreManager = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
+    }
 
     private void Start() {
         scoreText.gameObject.SetActive(true);    
@@ -27,6 +35,17 @@ public class Play : MonoBehaviour
         {
             // Load Death Scene (= 2)
             SceneManager.LoadScene(2);
+            CheckAndSaveHighscore();
+        }
+    }
+
+    // Checks if the highscore has been reached and saves it, so when starting the game anew it can be looked up
+    private void CheckAndSaveHighscore() {
+        if(scoreManager.highScoreValue < scoreValue) {
+            // Highscore has been reached, so we could congratulate the player and set the new value
+            scoreManager.highScoreValue = scoreValue;
+            PlayerPrefs.SetFloat("highScore", scoreManager.highScoreValue);
+            Debug.Log("Congratulations, you have unlocked the highscore!");
         }
     }
 
@@ -37,6 +56,7 @@ public class Play : MonoBehaviour
             if(slide == false)
             {
                 SceneManager.LoadScene(2);
+                CheckAndSaveHighscore();
             }
         }
         else if(other.gameObject.tag == "Hindernisss")
@@ -44,6 +64,7 @@ public class Play : MonoBehaviour
             if(jump == false)
             {
                 SceneManager.LoadScene(2);
+                CheckAndSaveHighscore();
             }
         }
     }
